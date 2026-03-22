@@ -1,0 +1,29 @@
+# Dependencias
+node_modules/
+/apps/api/node_modules/
+
+# Entornos y Secretos
+.env
+.env.local
+firebase-debug.log
+firebase-debug.*.log
+
+# Compilados de Node / TypeScript
+dist/
+lib/
+out-tsc/
+
+# Logs
+npm-debug.log
+yarn-error.log
+*.log
+
+# Angular
+.angular/
+.cache/
+
+# IDEs y SO
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
