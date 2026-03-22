@@ -1,0 +1,15 @@
+{
+  "name": "challenge-app-todo",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Dangelo Aguilar",
+  "license": "ISC",
+  "description": "App de tareas",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}
