@@ -1,0 +1,25 @@
+.task-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 350px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.mt-2 {
+    margin-top: 8px;
+}
+
+.filter-bar {
+    display: flex;
+    margin-bottom: 2rem;
+}
+
+.custom-color-chip {
+    ::ng-deep .mdc-evolution-chip__text-label {
+        font-weight: 500;
+    }
+}

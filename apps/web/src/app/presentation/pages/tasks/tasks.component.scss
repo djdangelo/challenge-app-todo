@@ -1,0 +1,78 @@
+.task-list-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.header-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+
+    h1 {
+        margin: 0;
+    }
+}
+
+.loading-state,
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 0;
+    text-align: center;
+    opacity: 0.8;
+}
+
+.empty-icon {
+    font-size: 80px;
+    height: 80px;
+    width: 80px;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.task-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.task-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.3s ease;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    &.completed {
+        opacity: 0.7;
+        background-color: var(--mat-sys-surface-container-low);
+    }
+}
+
+.task-desc {
+    margin-top: 1rem;
+    color: var(--mat-sys-on-surface-variant);
+    flex-grow: 1;
+}
+
+.strikethrough {
+    text-decoration: line-through;
+    opacity: 0.7;
+}
+
+.task-meta {
+    margin-top: 1rem;
+}
+
+mat-card-header {
+    ::ng-deep .mat-mdc-card-header-text {
+        width: 100%;
+    }
+}

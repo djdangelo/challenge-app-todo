@@ -1,0 +1,83 @@
+<div class="task-list-container">
+
+    <div class="header-actions">
+        <h1 class="mat-headline-medium">Mis Tareas</h1>
+        <button mat-fab extended color="primary" (click)="openCreateModal()">
+            <mat-icon>add</mat-icon>
+            Nueva Tarea
+        </button>
+    </div>
+
+    <div class="filter-bar">
+        <mat-button-toggle-group [value]="currentFilter()" (change)="currentFilter.set($event.value)"
+            aria-label="Filtro de tareas">
+            <mat-button-toggle value="ALL">Todas</mat-button-toggle>
+            <mat-button-toggle value="PENDING">Pendientes</mat-button-toggle>
+            <mat-button-toggle value="COMPLETED">Completadas</mat-button-toggle>
+        </mat-button-toggle-group>
+    </div>
+
+    @if (isLoading() && tasks().length === 0) {
+    <div class="loading-state">
+        <mat-spinner diameter="40"></mat-spinner>
+        <p>Cargando tareas...</p>
+    </div>
+    }
+
+    @if (!isLoading() && filteredTasks().length === 0) {
+    <div class="empty-state">
+        <mat-icon color="primary" class="empty-icon">
+            {{ tasks().length === 0 ? 'task' : 'filter_list_off' }}
+        </mat-icon>
+        <h2 class="mat-title-large">
+            {{ tasks().length === 0 ? 'No tienes tareas' : 'No hay tareas en este filtro' }}
+        </h2>
+    </div>
+    }
+
+    <div class="task-grid">
+        @for (task of filteredTasks(); track task.id) {
+        <mat-card class="task-card" [class.completed]="task.isCompleted">
+            <mat-card-header>
+                <div mat-card-avatar>
+                    <mat-checkbox color="primary" [checked]="!task.isCompleted" (change)="toggleCompletion(task)">
+                    </mat-checkbox>
+                </div>
+                <mat-card-title [class.strikethrough]="!task.isCompleted">
+                    {{ task.title }}
+                </mat-card-title>
+                <mat-card-subtitle>
+                    Creada: {{ task.createdAt | date:'short' }}
+                </mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+                <p [class.strikethrough]="!task.isCompleted" class="task-desc">
+                    {{ task.description }}
+                </p>
+
+                <div class="task-meta">
+                    @if (getTaskType(task.taskTypeId); as type) {
+                    <mat-chip-set>
+                        <mat-chip class="custom-color-chip" [style.background-color]="type.color"
+                            [style.color]="getContrastColor(type.color!)">
+                            {{ type.name }}
+                        </mat-chip>
+                    </mat-chip-set>
+                    }
+                </div>
+            </mat-card-content>
+
+            <mat-card-actions align="end">
+                <button mat-icon-button color="primary" (click)="openEditModal(task)" matTooltip="Editar tarea">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="deleteTask(task.id)" matTooltip="Eliminar tarea">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </mat-card-actions>
+        </mat-card>
+        }
+    </div>
+
+</div>
