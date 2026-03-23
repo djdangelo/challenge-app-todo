@@ -1,0 +1,47 @@
+<h2 mat-dialog-title>{{ data ? 'Editar Tarea' : 'Nueva Tarea' }}</h2>
+
+<mat-dialog-content>
+    <form [formGroup]="taskForm" class="task-form">
+
+        <mat-form-field appearance="outline" class="full-width mt-2">
+            <mat-label>Título</mat-label>
+            <input matInput formControlName="title" placeholder="Ej. Aprender Angular 18" cdkFocusInitial>
+            @if (taskForm.controls.title.hasError('required')) {
+            <mat-error>El título es requerido</mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Descripción</mat-label>
+            <textarea matInput formControlName="description" rows="3"
+                placeholder="Ej. Configurar Signals y Arquitectura Limpia"></textarea>
+            @if (taskForm.controls.description.hasError('required')) {
+            <mat-error>La descripción es requerida</mat-error>
+            }
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Categoría</mat-label>
+            <mat-select formControlName="taskTypeId">
+                <mat-option [value]="null">Sin categoría</mat-option>
+                @for (type of taskTypes(); track type.id) {
+                <mat-option [value]="type.id">
+                    {{ type.name }}
+                </mat-option>
+                }
+            </mat-select>
+        </mat-form-field>
+
+    </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()" [disabled]="isLoading()">Cancelar</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="taskForm.invalid || isLoading()">
+        @if (isLoading()) {
+        <mat-spinner diameter="20"></mat-spinner>
+        } @else {
+        <span>{{ data ? 'Actualizar Tarea' : 'Guardar Tarea' }}</span>
+        }
+    </button>
+</mat-dialog-actions>
