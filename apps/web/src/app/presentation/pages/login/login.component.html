@@ -1,0 +1,34 @@
+<div class="login-container">
+    <mat-card class="login-card">
+        <mat-card-header>
+            <mat-card-title>Bienvenido</mat-card-title>
+            <mat-card-subtitle>Ingresa tu correo para continuar</mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+            <div class="login-form" (keydown.enter)="onSubmit()">
+                <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Correo electrónico</mat-label>
+                    <input matInput type="email" [formControl]="emailControl" placeholder="ejemplo@correo.com" />
+
+                    @if (emailControl.hasError('email') && !emailControl.hasError('required')) {
+                    <mat-error>Por favor, ingresa un correo válido</mat-error>
+                    }
+                    @if (emailControl.hasError('required')) {
+                    <mat-error>El correo es <strong>requerido</strong></mat-error>
+                    }
+                </mat-form-field>
+
+                <button mat-raised-button color="primary" (click)="onSubmit()" class="submit-button"
+                    [disabled]="emailControl.invalid || isLoading()">
+
+                    @if (isLoading()) {
+                    <mat-spinner diameter="20"></mat-spinner>
+                    } @else {
+                    <span>Ingresar</span>
+                    }
+                </button>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

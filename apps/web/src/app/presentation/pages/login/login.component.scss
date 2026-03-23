@@ -1,0 +1,30 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.submit-button {
+    margin-top: 10px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
