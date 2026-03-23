@@ -1,0 +1,20 @@
+<div class="layout-container">
+    <mat-toolbar color="primary" class="mat-elevation-z4 header">
+        <span>👻 ToDo App</span>
+
+        <span class="spacer"></span>
+
+        <button mat-icon-button (click)="toggleTheme()"
+            [matTooltip]="isDarkTheme() ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'">
+            <mat-icon>{{ isDarkTheme() ? 'light_mode' : 'dark_mode' }}</mat-icon>
+        </button>
+
+        <button mat-icon-button (click)="logout()" matTooltip="Cerrar sesión">
+            <mat-icon>logout</mat-icon>
+        </button>
+    </mat-toolbar>
+
+    <main class="content">
+        <router-outlet></router-outlet>
+    </main>
+</div>

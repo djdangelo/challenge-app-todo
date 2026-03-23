@@ -1,0 +1,23 @@
+.layout-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.spacer {
+    flex: 1 1 auto;
+    /* Empuja los botones hacia la derecha */
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+    /* Permite scroll solo en el contenido, no en el navbar */
+}
