@@ -1,0 +1,41 @@
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+$light-theme: mat.define-theme((color: (theme-type: light,
+                primary: mat.$azure-palette,
+                tertiary: mat.$blue-palette )));
+
+$dark-theme: mat.define-theme((color: (theme-type: dark,
+                primary: mat.$azure-palette,
+                tertiary: mat.$blue-palette )));
+
+:root {
+    @include mat.all-component-themes($light-theme);
+}
+
+.dark-theme {
+    @include mat.all-component-colors($dark-theme);
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+body {
+    background-color: var(--mat-sys-background, #fafafa);
+    color: var(--mat-sys-on-background, rgba(0, 0, 0, 0.87));
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body.dark-theme {
+    background-color: var(--mat-sys-background, #303030);
+    color: var(--mat-sys-on-background, #ffffff);
+}
+
+.mat-mdc-button .mat-mdc-progress-spinner {
+    margin-right: 8px;
+}
