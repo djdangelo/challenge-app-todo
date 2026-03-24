@@ -23,14 +23,14 @@ Aplicación de gestión de tareas construida con **Angular 18** y **Node.js/Expr
 
 El proyecto utiliza Workspaces de NPM para manejar ambas aplicaciones en un solo repositorio:
 
-\`\`\`text
+```text
 challenge-fullstack/
 ├── apps/
 │   ├── api/       # Backend (Node.js + Express)
 │   └── web/       # Frontend (Angular 18)
 ├── package.json   # Gestión centralizada de dependencias
 └── README.md
-\`\`\`
+```
 
 ---
 
@@ -46,32 +46,34 @@ challenge-fullstack/
 
 1. **Clonar e instalar dependencias:**
    Desde la raíz del monorepo, instala todas las dependencias del ecosistema:
-   \`\`\`bash
+   ```bash
    npm install
-   \`\`\`
+   ```
 
 2. **Configurar Variables de Entorno (Backend):**
-   Crea un archivo \`.env\` en \`apps/api/\` con tus credenciales de Firebase:
-   \`\`\`env
+   Crea un archivo `.env` en `apps/api/` con tus credenciales de Firebase:
+   ```env
    PORT=3000
    NODE_ENV=development
+   JWT_SECRET=secret
+   
    FIREBASE_PROJECT_ID="tu-project-id"
    FIREBASE_CLIENT_EMAIL="tu-email-de-servicio"
    FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nTuLlave\n-----END PRIVATE KEY-----\n"
-   \`\`\`
+   ```
 
 3. **Levantar el Backend:**
    En una terminal, desde la raíz del proyecto:
-   \`\`\`bash
+   ```bash
    npm run start:local -w api
-   \`\`\`
+   ```
    *(El servidor correrá en http://localhost:3000)*
 
 4. **Levantar el Frontend:**
    En otra terminal, desde la raíz del proyecto:
-   \`\`\`bash
+   ```bash
    npm run start -w web
-   \`\`\`
+   ```
    *(La aplicación estará disponible en http://localhost:4200)*
 
 ---
