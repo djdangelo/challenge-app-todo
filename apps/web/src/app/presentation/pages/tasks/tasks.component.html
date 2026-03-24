@@ -34,16 +34,22 @@
         </h2>
     </div>
     }
-
+    @if (
+    tasks().length > 0
+    ) {
+    <br>
+    <mat-divider></mat-divider>
+    <br>
+    }
     <div class="task-grid">
         @for (task of filteredTasks(); track task.id) {
         <mat-card class="task-card" [class.completed]="task.isCompleted">
             <mat-card-header>
                 <div mat-card-avatar>
-                    <mat-checkbox color="primary" [checked]="!task.isCompleted" (change)="toggleCompletion(task)">
+                    <mat-checkbox color="primary" [checked]="task.isCompleted" (change)="toggleCompletion(task)">
                     </mat-checkbox>
                 </div>
-                <mat-card-title [class.strikethrough]="!task.isCompleted">
+                <mat-card-title [class.strikethrough]="task.isCompleted">
                     {{ task.title }}
                 </mat-card-title>
                 <mat-card-subtitle>
@@ -52,7 +58,7 @@
             </mat-card-header>
 
             <mat-card-content>
-                <p [class.strikethrough]="!task.isCompleted" class="task-desc">
+                <p [class.strikethrough]="task.isCompleted" class="task-desc">
                     {{ task.description }}
                 </p>
 

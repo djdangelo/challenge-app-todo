@@ -6,3 +6,4 @@ export * from './task-type.model';
 export * from './create-task.model';
 export * from './update-task.model';
 export * from './confirm-dialog.model';
+export * from './task-dialog-data.model';

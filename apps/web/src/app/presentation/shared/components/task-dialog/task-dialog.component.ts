@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TaskFacade } from '@application/facades/task.facade';
-import { CreateTask, Task } from '@core/models/models';
+import { CreateTask, TaskDialogData } from '@core/models/models';
 
 @Component({
   selector: 'app-task-dialog',
@@ -26,7 +26,7 @@ export class TaskDialogComponent implements OnInit {
   private readonly dialogRef = inject(MatDialogRef<TaskDialogComponent>);
   public readonly taskFacade = inject(TaskFacade);
 
-  public readonly data: Task = inject(MAT_DIALOG_DATA, { optional: true });
+  public readonly data: TaskDialogData = inject(MAT_DIALOG_DATA, { optional: true });
 
   public taskTypes = this.taskFacade.taskTypes;
   public isLoading = this.taskFacade.isLoading;
@@ -38,11 +38,11 @@ export class TaskDialogComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    if (this.data) {
+    if (this.data.task) {
       this.taskForm.patchValue({
-        title: this.data.title,
-        description: this.data.description,
-        taskTypeId: this.data.taskTypeId
+        title: this.data.task.title,
+        description: this.data.task.description,
+        taskTypeId: this.data.task.taskTypeId
       });
     }
   }

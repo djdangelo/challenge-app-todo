@@ -8,6 +8,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatDividerModule } from '@angular/material/divider';
 
 import { TaskFacade } from '@application/facades/task.facade';
 import { Task } from '@core/models/task.model';
@@ -31,7 +32,8 @@ import { TaskType } from '@core/models/task-type.model';
     MatProgressSpinnerModule,
     MatTooltipModule,
     MatDialogModule,
-    MatButtonToggleModule
+    MatButtonToggleModule,
+    MatDividerModule
   ],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.scss',
