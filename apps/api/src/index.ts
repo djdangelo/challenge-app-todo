@@ -11,7 +11,7 @@ app.use(cors({ origin: true }));
 app.use(express.json());
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
-app.use('/api', apiRoutes);
+app.use('', apiRoutes);
 
 if (process.env.NODE_ENV === 'development') {
     app.listen(process.env.PORT, () => {
