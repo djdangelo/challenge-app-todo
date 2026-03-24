@@ -1,4 +1,4 @@
-import * as functions from 'firebase-functions';
+import { onRequest } from 'firebase-functions/v2/https';
 import express, { Application } from 'express';
 import cors from 'cors';
 import { router as apiRoutes } from '@presentation/routes';
@@ -14,11 +14,10 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use('/api', apiRoutes);
 
 if (process.env.NODE_ENV === 'development') {
-    const PORT = 3000;
-    app.listen(PORT, () => {
-        console.log(`🚀 Servidor de desarrollo corriendo en http://localhost:${PORT}`);
-        console.log(`📚 Documentación Swagger en http://localhost:${PORT}/api-docs`);
+    app.listen(process.env.PORT, () => {
+        console.log(`🚀 Servidor de desarrollo corriendo en http://localhost:${process.env.PORT}`);
+        console.log(`📚 Documentación Swagger en http://localhost:${process.env.PORT}/api-docs`);
     });
 }
 
-export const api = functions.https.onRequest(app);
+export const api = onRequest(app);
