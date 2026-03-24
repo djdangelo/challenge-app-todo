@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 export class JwtService {
-    private static readonly SECRET = process.env.JWT_SECRET || 'super-secret-challenge-key';
+    private static readonly SECRET = process.env.JWT_SECRET!;
 
     public static generateToken(userId: string, email: string): string {
         const payload = {

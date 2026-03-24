@@ -32,9 +32,9 @@ export class FirestoreTaskRepository implements ITaskRepository {
             data.title,
             data.description,
             data.userId,
+            data.taskTypeId,
             data.createdAt.toDate(),
             data.isCompleted,
-            data.taskTypeId,
             data.id
         );
     }
@@ -47,9 +47,9 @@ export class FirestoreTaskRepository implements ITaskRepository {
                 data.title,
                 data.description,
                 data.userId,
+                data.taskTypeId,
                 data.createdAt.toDate(),
                 data.isCompleted,
-                data.taskTypeId,
                 data.id
             );
         });
@@ -67,9 +67,9 @@ export class FirestoreTaskRepository implements ITaskRepository {
                 data.title,
                 data.description,
                 data.userId,
+                data.taskTypeId,
                 data.createdAt.toDate(),
                 data.isCompleted,
-                data.taskTypeId,
                 data.id
             );
         });
