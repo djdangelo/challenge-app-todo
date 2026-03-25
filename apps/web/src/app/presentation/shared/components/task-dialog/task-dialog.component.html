@@ -23,13 +23,15 @@
         <mat-form-field appearance="outline" class="full-width">
             <mat-label>Categoría</mat-label>
             <mat-select formControlName="taskTypeId">
-                <mat-option [value]="null">Sin categoría</mat-option>
                 @for (type of taskTypes(); track type.id) {
                 <mat-option [value]="type.id">
                     {{ type.name }}
                 </mat-option>
                 }
             </mat-select>
+            @if (taskForm.controls.taskTypeId.hasError('required')) {
+            <mat-error>La categoría es requerida</mat-error>
+            }
         </mat-form-field>
 
     </form>
