@@ -6,7 +6,7 @@ export class GetTasksByUserUseCase {
 
     async execute(userId: string): Promise<Task[]> {
         if (!userId) {
-            throw new Error('El ID del usuario es requerido para obtener las tareas.');
+            throw new Error('REQUIRED_USER_ID');
         }
         return await this.taskRepository.findByUserId(userId);
     }

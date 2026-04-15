@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { DependencyFactory } from '@infrastructure/di/DependencyFactory';
 import { DynamicResponseMessage } from '@presentation/helpers/DynamicResponseMessage';
 import { JwtService } from '@infrastructure/auth/JwtService';
+import { logger } from '@infrastructure/config/logger';
 
 export class UserController {
 
@@ -10,6 +11,7 @@ export class UserController {
             const { email } = req.body;
 
             if (!email) {
+                logger.warn({ email }, 'El correo es requerido');
                 const errorResponse = DynamicResponseMessage.BadRequest<null>('El correo es requerido.');
                 return res.status(errorResponse.status).json(errorResponse);
             }
@@ -17,6 +19,7 @@ export class UserController {
             const checkUserUseCase = DependencyFactory.getCheckUserUseCase();
             const user = await checkUserUseCase.execute(email);
             if (!user) {
+                logger.warn({ email }, 'Usuario no encontrado');
                 const notFoundResponse = DynamicResponseMessage.NotFound<null>('Usuario no encontrado. Se requiere confirmación para crearlo.');
                 return res.status(notFoundResponse.status).json(notFoundResponse);
             }
@@ -27,10 +30,11 @@ export class UserController {
                 { user, token },
                 'Inicio de sesión exitoso.'
             );
-
+            logger.info({ user }, 'Inicio de sesion correcto.')
             return res.status(successResponse.status).json(successResponse);
 
         } catch (error: unknown) {
+            logger.error({ error }, 'Error al iniciar sesión');
             const serverError = DynamicResponseMessage.InternalError<null>(error instanceof Error ? error.message : 'Error interno del servidor');
             return res.status(serverError.status).json(serverError);
         }
@@ -41,6 +45,7 @@ export class UserController {
             const { email } = req.body;
 
             if (!email) {
+                logger.warn({ email }, 'El correo es requerido');
                 const errorResponse = DynamicResponseMessage.BadRequest<null>('El correo es requerido.');
                 return res.status(errorResponse.status).json(errorResponse);
             }
@@ -54,10 +59,17 @@ export class UserController {
                 { user: newUser, token },
                 'Usuario creado e iniciada la sesión exitosamente.'
             );
+            logger.info({ user: newUser }, 'Usuario creado correctamente.')
 
             return res.status(createdResponse.status).json(createdResponse);
 
         } catch (error: unknown) {
+            if (error instanceof Error && error.message === 'ALREADY_EXISTS') {
+                logger.warn({ error }, 'El correo ya existe');
+                const errorResponse = DynamicResponseMessage.BadRequest<null>('El correo ya existe.');
+                return res.status(errorResponse.status).json(errorResponse);
+            }
+            logger.error({ error }, 'Error al registrar el usuario');
             const badRequestResponse = DynamicResponseMessage.InternalError<null>(error instanceof Error ? error.message : 'Error interno del servidor');
             return res.status(badRequestResponse.status).json(badRequestResponse);
         }

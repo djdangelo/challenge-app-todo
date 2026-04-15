@@ -1,5 +1,6 @@
 import * as admin from 'firebase-admin';
 import * as dotenv from 'dotenv';
+import { logger } from './logger';
 
 dotenv.config();
 
@@ -17,11 +18,11 @@ if (!admin.apps.length) {
                 privateKey: privateKey,
             })
         });
-        console.log('🔥 Firebase inicializado con credenciales locales (.env)');
+        logger.info('Firebase inicializado con credenciales locales (.env)');
     }
     else {
         admin.initializeApp();
-        console.log('☁️ Firebase inicializado usando Application Default Credentials (GCP)');
+        logger.info('Firebase inicializado usando Application Default Credentials (GCP)');
     }
 }
 
