@@ -5,8 +5,19 @@ import { swaggerSpec } from '@infrastructure/swagger/swagger.config';
 import swaggerUi from 'swagger-ui-express';
 import { securityCors, globalLimiter } from '@presentation/middlewares/SecurityMiddleware';
 import { DynamicResponseMessage } from '@presentation/helpers/DynamicResponseMessage';
+import { logger } from '@infrastructure/config/logger';
+import pinoHttp from 'pino-http';
 
 const app: Application = express();
+
+app.use(pinoHttp({
+    logger,
+    customLogLevel: (req, res, err) => {
+        if (res.statusCode >= 500 || err) return 'error';
+        if (res.statusCode >= 400) return 'warn';
+        return 'info';
+    }
+}));
 
 app.use(securityCors);
 app.use(globalLimiter);
@@ -21,9 +32,14 @@ app.use(/.*/, (_req, res) => {
 
 if (process.env.NODE_ENV === 'development') {
     app.listen(process.env.PORT, () => {
-        console.log(`🚀 Servidor de desarrollo corriendo en http://localhost:${process.env.PORT}`);
-        console.log(`📚 Documentación Swagger en http://localhost:${process.env.PORT}/api-docs`);
+        logger.info(`Servidor de desarrollo corriendo en http://localhost:${process.env.PORT}`);
+        logger.info(`Documentacion Swagger en http://localhost:${process.env.PORT}/api-docs`);
     });
 }
 
-export const api = onRequest(app);
+export const api = onRequest({
+    region: 'us-central1',
+    memory: '256MiB',
+    concurrency: 80,
+    maxInstances: 10
+}, app);

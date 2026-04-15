@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { ZodObject, ZodError } from 'zod';
 import { DynamicResponseMessage } from '@presentation/helpers/DynamicResponseMessage';
+import { logger } from '@infrastructure/config/logger';
 
 export const validateSchema = (schema: ZodObject) =>
     async (req: Request, res: Response, next: NextFunction) => {
@@ -15,10 +16,12 @@ export const validateSchema = (schema: ZodObject) =>
                     'Errores de validación en los datos enviados.',
                     errorMessages
                 );
+                logger.warn({ error }, 'Errores de validación en los datos enviados.');
                 return res.status(errorResponse.status).json(errorResponse);
             }
 
             const serverError = DynamicResponseMessage.InternalError<null>('Error interno de validación');
+            logger.error({ error }, 'Error interno de validación');
             return res.status(serverError.status).json(serverError);
         }
     };

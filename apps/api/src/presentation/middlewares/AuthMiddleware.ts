@@ -2,11 +2,13 @@ import { Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { DynamicResponseMessage } from '@presentation/helpers/DynamicResponseMessage';
 import { AuthenticatedRequest } from '@presentation/interfaces/AuthenticatedRequest';
+import { logger } from '@infrastructure/config/logger';
 
 export const authMiddleware = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        logger.warn({ authHeader }, 'Token de autenticación no proporcionado o formato inválido');
         const errorResponse = DynamicResponseMessage.Unauthorized<null>(
             'Acceso denegado. Token de autenticación no proporcionado o formato inválido.'
         );
@@ -28,6 +30,7 @@ export const authMiddleware = (req: AuthenticatedRequest, res: Response, next: N
         next();
 
     } catch (error: any) {
+        logger.warn({ error }, 'Token inválido o expirado');
         const errorResponse = DynamicResponseMessage.Unauthorized<null>(
             'Acceso denegado. Token inválido o expirado.'
         );

@@ -1,8 +1,10 @@
 import cors from 'cors';
 import rateLimit from 'express-rate-limit';
+import { logger } from '@infrastructure/config/logger';
 
 const allowedOrigins = [
     'http://localhost:4200',
+    'http://localhost:3000',
     'https://todo-task-824ef.web.app',
     'https://todo-task-824ef.firebaseapp.com'
 ];
@@ -12,6 +14,7 @@ export const securityCors = cors({
         if (!origin || allowedOrigins.includes(origin)) {
             callback(null, true);
         } else {
+            logger.warn({ origin }, 'Bloqueado por CORS: Origen no permitido');
             callback(new Error('Bloqueado por CORS: Origen no permitido'));
         }
     },
