@@ -42,26 +42,26 @@ challenge-fullstack/
 │   └── web/       # Frontend (Angular 18 + Signals)
 ├── package.json   # Centralized workspace management
 └── README.md
-
+```
 ---
 
 ## 💻 Local Setup & Development
 
-### Clone & Install
+### Clone & Install:
 ```bash
 npm install
 ```
 
-### Environment Configuration
-Crea un archivo `.env` en `apps/api/` con tus credenciales de **Firebase Service Account**.
+### Environment Configuration:
+Create a `.env` in `apps/api/` with your **Firebase Service Account** credentials.
 
-### Execution
-* **Backend:** `npm run start:local -w api` (Corre en http://localhost:3000)
-* **Frontend:** `npm run start -w web` (Corre en http://localhost:4200)
+### Execution:
+* **Backend:** `npm run start:local -w api` (Runs on http://localhost:3000)
+* **Frontend:** `npm run start -w web` (Runs on http://localhost:4200)
 
 ---
 
 ## 🧪 Key Engineering Decisions
 
-* **Total Decoupling:** Los componentes de la UI son completamente agnósticos a la fuente de datos. Toda la comunicación se delega a **Facades**, permitiendo que la infraestructura (Firebase) sea fácilmente intercambiable.
-* **Strict Typing:** Política de **"Zero Any"** absoluto. El uso de interfaces compartidas en todo el monorepo garantiza seguridad de tipos *end-to-end*, desde la base de datos hasta la vista.
+* **Total Decoupling:** The UI components are completely unaware of the data source. All communication is delegated to **Facades**, making the infrastructure (Firebase) easily swappable.
+* **Strict Typing:** Absolute **"Zero Any"** policy. Shared interfaces across the monorepo ensure end-to-end type safety from the DB to the View.
