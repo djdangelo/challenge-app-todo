@@ -1,85 +1,67 @@
-# ✅ App ToDo FullStack - Clean Architecture
+# 🚀 Enterprise-Grade To-Do Ecosystem | Clean Architecture
+### A Full-Stack Monorepo showcasing high-scalability patterns and modern reactive state management.
 
-Aplicación de gestión de tareas construida con **Angular 18** y **Node.js/Express**, respaldada por **Firebase (Firestore)**. Diseñada bajo los principios de **Arquitectura Limpia (Clean Architecture)** para garantizar escalabilidad, mantenibilidad y separación de responsabilidades.
-
-## 🚀 Tecnologías Destacadas
-
-### FrontEnd (Angular 18)
-* **Arquitectura:** Clean Architecture (Core, Application, Infrastructure, Presentation).
-* **Estado:** Manejo reactivo 100% basado en **Signals** y `computed`.
-* **Componentes:** Standalone Components y nuevo Control Flow (`@if`, `@for`).
-* **UI/UX:** Angular Material 3 con colores dinámicos y soporte persistente para **Dark/Light Mode**.
-* **Seguridad:** Guards funcionales atómicos (`UrlTree`) e Interceptors globales.
-
-### BackEnd (Node.js)
-* **Arquitectura:** Capas separadas (Controllers, Services, Repositories).
-* **Base de Datos:** Firebase Admin SDK (Firestore) con Índices Compuestos.
-* **Validación:** **Zod** para validación estricta de DTOs en tiempo de ejecución.
-* **Autenticación:** JWT (JSON Web Tokens) con validación por Middleware.
+[![Live Demo](https://img.shields.io/badge/Demo-Live_Application-brightgreen?style=for-the-badge&logo=vercel)](https://app-todo-3f5f6.web.app/)
+[![API Docs](https://img.shields.io/badge/API_Docs-Swagger_UI-blue?style=for-the-badge&logo=swagger)](https://api-todo-597539062334.us-central1.run.app/api-docs/)
 
 ---
 
-## 📂 Estructura del Monorepo
+## 🎯 Project Overview
+This is a production-ready Task Management system built with **Angular 18** and **Node.js/Express**, leveraging **Firebase (Firestore)**. It serves as a blueprint for implementing **Clean Architecture** to ensure total decoupling between business logic and infrastructure.
 
-El proyecto utiliza Workspaces de NPM para manejar ambas aplicaciones en un solo repositorio:
+## 🏗️ Architectural Core (Clean Architecture)
+The project is architected into 4 distinct layers to guarantee maintainability:
+- **Domain Layer:** Pure business logic and Entities (Framework agnostic).
+- **Application Layer:** Use Cases (Orchestrators) and Facades.
+- **Infrastructure Layer:** Firebase Admin SDK, JWT Middleware, and Repository implementations.
+- **Presentation Layer:** - **Frontend:** Signal-based reactive UI.
+    - **Backend:** Scalable REST API with strict DTO validation.
 
+---
+
+## 🛠️ Technical Deep Dive
+
+### **Frontend (Angular 18+)**
+- **Reactive State:** 100% **Signals** and `computed` driven architecture—zero Zone.js overhead where possible.
+- **Modern Syntax:** Implementation of **Standalone Components** and the new **Control Flow** (`@if`, `@for`).
+- **UI/UX:** Material 3 implementation with dynamic color theming and persistent **Dark/Light Mode**.
+- **Performance:** **Optimistic UI** updates for instant user feedback on CRUD operations.
+
+### **Backend (Node.js)**
+- **Data Integrity:** **Zod** schema validation for strict runtime type-checking of DTOs.
+- **Security:** State-of-the-art **JWT** authentication and atomic Functional Guards.
+- **Database:** Optimized Firestore implementation using **Composite Indexes** for complex queries.
+
+---
+
+## 📂 Monorepo Structure (NPM Workspaces)
 ```text
 challenge-fullstack/
 ├── apps/
-│   ├── api/       # Backend (Node.js + Express)
-│   └── web/       # Frontend (Angular 18)
-├── package.json   # Gestión centralizada de dependencias
+│   ├── api/       # Backend (Node.js + Express + Firebase Admin)
+│   └── web/       # Frontend (Angular 18 + Signals)
+├── package.json   # Centralized workspace management
 └── README.md
+
+---
+
+## 💻 Local Setup & Development
+
+### Clone & Install
+```bash
+npm install
 ```
 
----
+### Environment Configuration
+Crea un archivo `.env` en `apps/api/` con tus credenciales de **Firebase Service Account**.
 
-## 🛠️ Requisitos Previos
-
-* **Node.js:** v18.x o superior.
-* **NPM:** v9.x o superior.
-* Archivo de credenciales de Firebase (`Service Account Key`).
-
----
-
-## 💻 Instalación y Ejecución Local
-
-1. **Clonar e instalar dependencias:**
-   Desde la raíz del monorepo, instala todas las dependencias del ecosistema:
-   ```bash
-   npm install
-   ```
-
-2. **Configurar Variables de Entorno (Backend):**
-   Crea un archivo `.env` en `apps/api/` con tus credenciales de Firebase:
-   ```env
-   PORT=3000
-   NODE_ENV=development
-   JWT_SECRET=secret
-   
-   FIREBASE_PROJECT_ID="tu-project-id"
-   FIREBASE_CLIENT_EMAIL="tu-email-de-servicio"
-   FIREBASE_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\nTuLlave\n-----END PRIVATE KEY-----\n"
-   ```
-
-3. **Levantar el Backend:**
-   En una terminal, desde la raíz del proyecto:
-   ```bash
-   npm run start:local -w api
-   ```
-   *(El servidor correrá en http://localhost:3000)*
-
-4. **Levantar el Frontend:**
-   En otra terminal, desde la raíz del proyecto:
-   ```bash
-   npm run start -w web
-   ```
-   *(La aplicación estará disponible en http://localhost:4200)*
+### Execution
+* **Backend:** `npm run start:local -w api` (Corre en http://localhost:3000)
+* **Frontend:** `npm run start -w web` (Corre en http://localhost:4200)
 
 ---
 
-## 🧪 Decisiones Arquitectónicas
+## 🧪 Key Engineering Decisions
 
-* **Desacoplamiento Total:** La capa de presentación (`LoginComponent`, `TaskComponent`) ignora por completo el origen de los datos. Toda la comunicación se delega a las Fachadas (`AuthFacade`, `TaskFacade`), las cuales interactúan con la capa de Infraestructura.
-* **Optimistic UI:** Las actualizaciones y eliminaciones de tareas reflejan los cambios en la UI de forma instantánea a través de Signals antes de que el servidor responda, mejorando la percepción de velocidad.
-* **Zero 'Any':** Tipado estricto en ambos extremos. Uso de interfaces compartidas y validación por Zod para evitar inyección de datos corruptos en Firestore.
+* **Total Decoupling:** Los componentes de la UI son completamente agnósticos a la fuente de datos. Toda la comunicación se delega a **Facades**, permitiendo que la infraestructura (Firebase) sea fácilmente intercambiable.
+* **Strict Typing:** Política de **"Zero Any"** absoluto. El uso de interfaces compartidas en todo el monorepo garantiza seguridad de tipos *end-to-end*, desde la base de datos hasta la vista.
