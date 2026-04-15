@@ -7,8 +7,10 @@ import { securityCors, globalLimiter } from '@presentation/middlewares/SecurityM
 import { DynamicResponseMessage } from '@presentation/helpers/DynamicResponseMessage';
 import { logger } from '@infrastructure/config/logger';
 import pinoHttp from 'pino-http';
+import { defineSecret } from 'firebase-functions/params';
 
 const app: Application = express();
+const jwtSecret = defineSecret('JWT_SECRET');
 
 app.use(pinoHttp({
     logger,
@@ -41,5 +43,6 @@ export const api = onRequest({
     region: 'us-central1',
     memory: '256MiB',
     concurrency: 80,
-    maxInstances: 10
+    maxInstances: 10,
+    secrets: [jwtSecret]
 }, app);

@@ -28,10 +28,6 @@ jobs:
       - name: 🛠️ Compilar Backend
         run: npm run build -w api
 
-      - name: 🤫 Inyectar Variables de Entorno
-        run: |
-          echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" > apps/api/.env
-
       - name: 🔐 Autenticar con Google Cloud
         uses: google-github-actions/auth@v2
         with:
