@@ -3,7 +3,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { ApiResponse, CreateTask, Task, TaskType, UpdateTask } from "@core/models/models";
 import { TaskTypeService } from "@infrastructure/services/task-type.service";
 import { TaskService } from "@infrastructure/services/task.service";
-import { finalize, Observable, tap } from "rxjs";
+import { finalize, first, Observable, tap } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
@@ -24,6 +24,7 @@ export class TaskFacade {
     public loadTasks(): void {
         this._isLoading.set(true);
         this.taskApi.getAll().pipe(
+            first(),
             tap((response: ApiResponse<Task[]>) => {
                 if (response.data) {
                     this._tasks.set(response.data);
@@ -36,6 +37,7 @@ export class TaskFacade {
     public loadTaskTypes(): void {
         this._isLoading.set(true);
         this.taskTypeApi.getAll().pipe(
+            first(),
             tap((response: ApiResponse<TaskType[]>) => {
                 if (response.data) {
                     this._taskTypes.set(response.data);

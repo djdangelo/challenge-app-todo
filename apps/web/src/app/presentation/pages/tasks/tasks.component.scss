@@ -37,6 +37,8 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 1.5rem;
+    /* 🛡️ Quité 'align-items: start;' para que el grid use 'stretch' por defecto. 
+       Esto obliga a que todas las tarjetas de una misma fila midan exactamente lo mismo de alto. */
 }
 
 .task-card {
@@ -44,6 +46,8 @@
     flex-direction: column;
     height: 100%;
     transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.3s ease;
+    box-sizing: border-box;
+    /* 🛡️ Previene que el padding sume ancho y rompa el grid */
 
     &:hover {
         transform: translateY(-2px);
@@ -56,23 +60,68 @@
     }
 }
 
+/* 🛡️ DEFENSAS EN EL HEADER (TÍTULO Y CHECKBOX) */
+mat-card-header {
+    align-items: flex-start;
+    /* Evita que el checkbox se estire raro si el título es de 2 líneas */
+
+    ::ng-deep .mat-mdc-card-header-text {
+        width: 100%;
+        overflow: hidden;
+        /* Evita que el contenedor flex interno se desborde */
+    }
+
+    mat-card-title {
+        /* Rompe palabras infinitas (ej. aaaaaaaaaaaaaa...) */
+        word-wrap: break-word;
+        overflow-wrap: anywhere;
+        line-height: 1.3;
+
+        /* Limita a 2 líneas máximo y pone "..." al final */
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+/* 🛡️ DEFENSAS EN EL CONTENIDO (DESCRIPCIÓN) */
+mat-card-content {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    /* Empuja las acciones (botones) hacia abajo */
+}
+
 .task-desc {
     margin-top: 1rem;
     color: var(--mat-sys-on-surface-variant);
     flex-grow: 1;
-}
 
-.strikethrough {
-    text-decoration: line-through;
-    opacity: 0.7;
+    /* Rompe textos infinitos pero respeta los 'Enters' que el usuario haya escrito */
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+
+    /* Limita la descripción a 4 líneas máximo y pone "..." */
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .task-meta {
     margin-top: 1rem;
 }
 
-mat-card-header {
-    ::ng-deep .mat-mdc-card-header-text {
-        width: 100%;
-    }
+/* 🛡️ ANCLAJE DE BOTONES */
+mat-card-actions {
+    margin-top: auto;
+    /* Fuerza siempre los botones a la base de la tarjeta, sin importar cuánto texto haya arriba */
+}
+
+.strikethrough {
+    text-decoration: line-through;
+    opacity: 0.7;
 }

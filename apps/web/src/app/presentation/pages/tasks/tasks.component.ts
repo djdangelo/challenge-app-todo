@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, DestroyRef, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,6 +18,8 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { UpdateTask } from '@core/models/update-task.model';
 import { TaskFilter } from '@core/@types/task-filter.type';
 import { TaskType } from '@core/models/task-type.model';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { filter, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-tasks',
@@ -42,6 +44,7 @@ import { TaskType } from '@core/models/task-type.model';
 export class TasksComponent {
   public readonly taskFacade = inject(TaskFacade);
   private readonly dialog = inject(MatDialog);
+  private readonly destroyRef = inject(DestroyRef);
 
   public tasks = this.taskFacade.tasks;
   public taskTypes = this.taskFacade.taskTypes;
@@ -61,11 +64,15 @@ export class TasksComponent {
   }
 
   public toggleCompletion(task: Task): void {
-    this.taskFacade.updateTask(task.id, { isCompleted: !task.isCompleted }).subscribe();
+    this.taskFacade.updateTask(task.id, { isCompleted: !task.isCompleted })
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe();
   }
 
   public deleteTask(id: string): void {
-    this.taskFacade.deleteTask(id).subscribe();
+    this.taskFacade.deleteTask(id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe();
   }
 
   public openCreateModal(): void {
@@ -74,11 +81,11 @@ export class TasksComponent {
       disableClose: true
     });
 
-    dialogRef.afterClosed().subscribe((result: CreateTask | null) => {
-      if (result) {
-        this.taskFacade.createTask(result).subscribe();
-      }
-    });
+    dialogRef.afterClosed().pipe(
+      filter(Boolean),
+      switchMap((result: CreateTask) => this.taskFacade.createTask(result)),
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe();
   }
 
   public openEditModal(task: Task): void {
@@ -88,11 +95,11 @@ export class TasksComponent {
       data: { task }
     });
 
-    dialogRef.afterClosed().subscribe((result: UpdateTask | null) => {
-      if (result) {
-        this.taskFacade.updateTask(task.id, result).subscribe();
-      }
-    });
+    dialogRef.afterClosed().pipe(
+      filter(Boolean),
+      switchMap((result: UpdateTask) => this.taskFacade.updateTask(task.id, result)),
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe();
   }
 
   public filteredTasks = computed(() => {
