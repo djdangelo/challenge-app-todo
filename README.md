@@ -1,8 +1,8 @@
 # 🚀 Enterprise-Grade To-Do Ecosystem | Clean Architecture
 ### A Full-Stack Monorepo showcasing high-scalability patterns and modern reactive state management.
 
-[![Live Demo](https://img.shields.io/badge/Demo-Live_Application-brightgreen?style=for-the-badge&logo=vercel)](https://app-todo-3f5f6.web.app/)
-[![API Docs](https://img.shields.io/badge/API_Docs-Swagger_UI-blue?style=for-the-badge&logo=swagger)](https://api-todo-597539062334.us-central1.run.app/api-docs/)
+[![Live Demo](https://img.shields.io/badge/Demo-Live_Application-brightgreen?style=for-the-badge&logo=vercel)](https://todo-task-824ef.web.app/login)
+[![API Docs](https://img.shields.io/badge/API_Docs-Swagger_UI-blue?style=for-the-badge&logo=swagger)](https://api-6f5vkd2gaq-uc.a.run.app/api-docs/)
 
 ---
 
